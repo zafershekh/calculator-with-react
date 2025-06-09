@@ -1,0 +1,51 @@
+body{
+    background-color: #8a6e6e;
+}
+button{
+    height: 80px;
+    background-color: beige;
+    color: black;
+    border: 1px solid #fefefe;
+    font-size: 15px;
+    cursor: pointer;
+}
+button:active{
+  background-color: rgb(156, 220, 228);
+  color: #030303;
+  opacity: 1;
+  transition: 0s
+}
+
+.container{
+    height: fit-content;
+    background-color: aquamarine;
+    width: fit-content;
+    border: 10px solid rgb(44, 43, 44);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.Calcbutton{
+    display: grid;
+    grid-template-columns: repeat(4,100px);
+}
+.display{
+    grid-column-start: 1;
+    grid-column-end: 5;
+    padding: 20px;
+    font-size: 30px;
+    text-align: right;
+    border: 2px solid #030303;
+    background-color: #fefefe;
+}
+#headercalc{
+    grid-column-start: 1;
+    grid-column-end: 5;
+    padding: 20px;
+    font-size: large;
+    font-weight: bolder;
+    background: #030303;
+    color: aliceblue;
+    
+}
