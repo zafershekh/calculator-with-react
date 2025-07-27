@@ -56,6 +56,10 @@ html, body {
   text-align: right;
   margin-bottom: 20px;
   height: 10px;
+  @media (max-width:768px) {
+    margin-top: auto;
+    margin-bottom: 0px;
+  }
  
 }
 
@@ -67,9 +71,14 @@ html, body {
   margin-bottom: 10px;
   overflow-x: auto;
   white-space: nowrap;
-  direction: rtl;
   scrollbar-width: none;
-  
+  @media (max-width:768px) {
+    margin-top: auto;
+    margin-bottom: 50px;  
+  }
+}
+.text-wrapper-4.rtl-mode{
+  direction: rtl;
 }
 
 
