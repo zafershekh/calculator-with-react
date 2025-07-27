@@ -1,90 +1,132 @@
 function Calculator() {
-    const [display, setdisplay] = React.useState({
-        current: "0",
-        total: "0",
-        isInitial: true,
-        preOps: ""
+  const [display, setDisplay] = React.useState({
+    current: "0",
+    expression: "",
+    isInitial: true
+  });
+
+  const handleNumber = (value) => {
+    const newValue = display.isInitial ? value : display.current + value;
+    setDisplay({
+      ...display,
+      current: newValue,
+      isInitial: false
     });
-    function hendleNumber(value){
-        let newValue = value;
-        if(!display.isInitial){
-            newValue = display.current + value;
-        }
-        
+  };
 
-        setdisplay({current: newValue, total: display.total, isInitial: false, preOps: display.preOps});
-        console.log(display);
-    }
-    function hendleopration(ops){
-        const total = doCalculation();
-        setdisplay({current: total.toString(), total: total.toString(), isInitial: true, preOps: ops})
-        }
+  const btnAllClear = () => {
+    setDisplay({
+      current: "0",
+      expression: "",
+      isInitial: true
+    });
+  };
 
-    function doCalculation(){
-        let total = parseInt(display.total);
-        switch(display.preOps){
-            case "+":
-                total += parseInt(display.current);
-                break;
+  const btnCancel = () => {
+    setDisplay({
+      ...display,
+      current: "0",
+      isInitial: true
+    });
+  };
 
-            case "-":
-                total -=  parseInt(display.current);
-                break;
+ const handleOperation = (op) => {
+  let { current, expression, isInitial } = display;
 
-            case "X":
-                total *=  parseInt(display.current);
-                break;
+  if (op === "%") {
+    const result = parseFloat(current) / 100;
+    setDisplay({
+      ...display,
+      current: result.toString(),
+      isInitial: true
+    });
+    return;
+  }
 
-            case "/":
-                total /=  parseInt(display.current);
-                break;
-
-            default:
-                total =  parseInt(display.current);
-        }
-        return total;   
-    }
-
-
-
-    function btncancel() {
-        setdisplay({current: "0",
-        total: "0",
+  if (op === "=") {
+    // Complete the expression and evaluate
+    const fullExpr = expression + current;
+    try {
+      const result = eval(fullExpr.replace(/X/g, "*"));
+      setDisplay({
+        current: result.toString(),
+        expression: "", // Expression cleared after "="
         isInitial: true,
-        preOps: ""});
+        lastResult: result.toString() // Optional if you want to store last result
+      });
+    } catch (e) {
+      setDisplay({
+        current: "Error",
+        expression: "",
+        isInitial: true
+      });
+    }
+  } else {
+    // If expression is empty but user just pressed "=" before, reuse current
+    if (expression === "") {
+      expression = current + " " + op + " ";
+    } else {
+      expression += current + " " + op + " ";
     }
 
+    try {
+      const result = eval(expression.replace(/X/g, "*").slice(0, -3)); // remove trailing op for eval
+      setDisplay({
+        current: result.toString(),
+        expression: expression,
+        isInitial: true
+      });
+    } catch (e) {
+      setDisplay({
+        current: "Error",
+        expression: "",
+        isInitial: true
+      });
+    }
+  }
+};
 
 
-    return (<div className="Calcbutton">
-        <div id="headercalc">Demo Calculator</div>
-        <div className="display">{display.current}</div>
-        <CalcButton value="7" onClick={hendleNumber} />
-        <CalcButton value="8" onClick={hendleNumber} />
-        <CalcButton value="9" onClick={hendleNumber} />
-        <CalcButton value="/" onClick={hendleopration} />
-
-        <CalcButton value="4" onClick={hendleNumber} />
-        <CalcButton value="5" onClick={hendleNumber} />
-        <CalcButton value="6" onClick={hendleNumber} />
-        <CalcButton value="X" onClick={hendleopration} />
-
-        <CalcButton value="1" onClick={hendleNumber} />
-        <CalcButton value="2" onClick={hendleNumber} />
-        <CalcButton value="3" onClick={hendleNumber} />
-        <CalcButton value="-" onClick={hendleopration} />
-            
-        <CalcButton value="C" onClick={btncancel} />
-        <CalcButton value="0" onClick={hendleNumber} />
-        <CalcButton value="=" onClick={hendleopration} />
-        <CalcButton value="+" onClick={hendleopration} />
-
+  const renderButton = (text, onClick, extraClass = "") => (
+    <div className={`overlap-group-wrapper ${extraClass}`} onClick={onClick}>
+      <div className="overlap-group-2">
+        <div className="rounded-rectangle-2"></div>
+        <div className="text-wrapper">{text}</div>
+      </div>
     </div>
-    )
-}
-function CalcButton(number){
-    return <button onClick={() => number.onClick(number.value)}>{number.value}</button>
-}
-const root = ReactDOM.createRoot(document.getElementById("para"));
-root.render(<div className="container"><Calculator /></div>); 
+  );
 
+  return (
+    <div className="calculator">
+      <div className="text-wrapper-3">{display.expression}</div>
+      <div className="text-wrapper-4">{display.current}</div>
+      <div className="grid-buttons">
+        {renderButton("AC", btnAllClear)}
+        {renderButton("C", btnCancel)}
+        {renderButton("%", () => handleOperation("%"))}
+        {renderButton("/", () => handleOperation("/"))}
+
+        {renderButton("7", () => handleNumber("7"))}
+        {renderButton("8", () => handleNumber("8"))}
+        {renderButton("9", () => handleNumber("9"))}
+        {renderButton("X", () => handleOperation("X"))}
+
+        {renderButton("4", () => handleNumber("4"))}
+        {renderButton("5", () => handleNumber("5"))}
+        {renderButton("6", () => handleNumber("6"))}
+        {renderButton("-", () => handleOperation("-"))}
+
+        {renderButton("1", () => handleNumber("1"))}
+        {renderButton("2", () => handleNumber("2"))}
+        {renderButton("3", () => handleNumber("3"))}
+        {renderButton("+", () => handleOperation("+"), "button-span-2-rows")}
+
+        {renderButton("0", () => handleNumber("0"))}
+        {renderButton(".", () => handleNumber("."))}
+        {renderButton("=", () => handleOperation("="))}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Calculator />);
