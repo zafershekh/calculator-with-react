@@ -8,19 +8,10 @@ function Calculator() {
   const handleNumber = (value) => {
     let { current, isInitial } = display;
 
-    // If "." is pressed
     if (value === ".") {
-      // Prevent multiple "."
       if (current.includes(".")) return;
-
-      // If starting fresh, prefix with "0."
-      if (isInitial || current === "0") {
-        current = "0.";
-      } else {
-        current += ".";
-      }
+      current = isInitial || current === "0" ? "0." : current + ".";
     } else {
-      // Regular number input
       current = isInitial || current === "0" ? value : current + value;
     }
 
@@ -67,8 +58,7 @@ function Calculator() {
         setDisplay({
           current: result.toString(),
           expression: "",
-          isInitial: true,
-          lastResult: result.toString()
+          isInitial: true
         });
       } catch (e) {
         setDisplay({
@@ -78,7 +68,6 @@ function Calculator() {
         });
       }
     } else {
-      // Building the expression
       if (expression === "") {
         expression = current + " " + op + " ";
       } else {
@@ -86,10 +75,10 @@ function Calculator() {
       }
 
       try {
-        const result = eval(expression.replace(/X/g, "*").slice(0, -3)); // remove trailing op for eval
+        const result = eval(expression.replace(/X/g, "*").slice(0, -3));
         setDisplay({
           current: result.toString(),
-          expression: expression,
+          expression,
           isInitial: true
         });
       } catch (e) {
@@ -102,14 +91,26 @@ function Calculator() {
     }
   };
 
-  const renderButton = (text, onClick, extraClass = "") => (
+const renderButton = (text, onClick, extraClass = "") => {
+  const isOperator = ["+", "-", "X", "/"].includes(text);
+
+  return (
     <div className={`overlap-group-wrapper ${extraClass}`} onClick={onClick}>
-      <div className="overlap-group-2">
-        <div className="rounded-rectangle-2"></div>
-        <div className="text-wrapper">{text}</div>
-      </div>
+      {isOperator ? (
+        <div className="overlap-group-oprations">
+          <div className="rounded-rectangle-oprations"></div>
+          <div className="text-wrapper-oprations">{text}</div>
+        </div>
+      ) : (
+        <div className="overlap-group-2">
+          <div className="rounded-rectangle-2"></div>
+          <div className="text-wrapper">{text}</div>
+        </div>
+      )}
     </div>
   );
+};
+
 
   return (
     <div className="calculator">

@@ -44,6 +44,7 @@ html, body {
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
+    min-width: 380px;
   }
 
 }
@@ -99,8 +100,9 @@ html, body {
 
 
 
+/* === SHARED BUTTON STYLES === */
 .overlap-group-wrapper {
-  background: linear-gradient(180deg, rgba(61, 73, 83, 0.58), rgba(26, 26, 26, 0.58));
+  background: linear-gradient(180deg, #3D4953, #1A1A1A);
   border-radius: 15px;
   box-shadow: inset 0px 1px 0px #ffffffbf, 0px 2px 0px #adb5bd33;
   height: 70px;
@@ -110,14 +112,81 @@ html, body {
   justify-content: center;
   cursor: pointer;
   user-select: none;
- 
 }
 
+/* === DEFAULT (NUMBER) BUTTON DESIGN === */
 .overlap-group-2 {
-  background: linear-gradient(180deg, rgba(233, 236, 239, 1), rgba(61, 73, 83, 1));
-  border: 1px solid #adb5bd33;
+  position: relative;
+  height: 62px;
+  width: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 15px;
+  overflow: hidden; /* ensure ::before stays clipped */
+  z-index: 0;        /* behind text */
+}
+
+.overlap-group-2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #E9ECEF, #3D4953);
+  border: 1px solid rgba(173, 181, 189, 0.2);
   box-shadow: inset 1px 4px 6px 1px #00000061;
+  mix-blend-mode: overlay;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rounded-rectangle-2 {
+  position: absolute;
+  height: 45px;
+  width: 45px;
+  border-radius: 100px;
+  overflow: hidden;
+  z-index: 1; /* must be above parent background */
+}
+
+.rounded-rectangle-2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  background: linear-gradient(1deg, rgba(233, 236, 239, 0.87), rgba(33, 37, 41, 0.87));
+  mix-blend-mode: overlay;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+
+
+.text-wrapper {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* === OPERATOR BUTTON DESIGN === */
+.overlap-group-oprations {
+  background: linear-gradient(180deg, #CABA04 0%, #FDE047 100%);
+  background-blend-mode: normal;
+  /* border: 1px solid #adb5bd33; */
+  border-radius: 15px;
   height: 62px;
   width: 62px;
   display: flex;
@@ -126,34 +195,47 @@ html, body {
   position: relative;
 }
 
-.rounded-rectangle-2 {
-  background: linear-gradient(1deg, rgba(233, 236, 239, 0.87), rgba(33, 37, 41, 0.87));
-  border: 1px solid #adb5bd17;
+.rounded-rectangle-oprations {
+  background: linear-gradient(90deg, rgba(233, 236, 239, 1) 0%, rgba(33, 37, 41, 1) 91%);
+  border: inset 1px solid rgba(173, 181, 189, 0.13);
   border-radius: 100px;
-  box-shadow: 1px 4px 6px 1px #00000061;
+  box-shadow: inset 3px 2px 4px rgba(0, 0, 0, 0.38);
   height: 45px;
   width: 45px;
   position: absolute;
+
+  mix-blend-mode: overlay;
+  background-blend-mode: overlay;
+  opacity: 0.85; 
+  pointer-events: none; 
 }
 
-.text-wrapper {
-  color: #fffffffc;
+.text-wrapper-oprations {
+  color: #1A1A1A;
   font-size: 20px;
   font-weight: 600;
   text-shadow: 1px 4px 4px #00000075;
+  opacity: 0.64;
   z-index: 1;
 }
 
+/* === DOUBLE HEIGHT FOR "=" BUTTON === */
 .button-span-2-rows {
   grid-row: span 2;
   height: 155px;
-  /* Or 70*2 + gap */
 }
 
-.button-span-2-rows .overlap-group-2 {
+.button-span-2-rows .overlap-group-2,
+.button-span-2-rows .overlap-group-oprations {
   height: 90%;
 }
 
-.button-span-2-rows .rounded-rectangle-2 {
+.button-span-2-rows .rounded-rectangle-2,
+.button-span-2-rows .rounded-rectangle-oprations {
   height: 75%;
+}
+
+/* === RTL Display Mode for Overflow === */
+.text-wrapper-4.rtl-mode {
+  direction: rtl;
 }
