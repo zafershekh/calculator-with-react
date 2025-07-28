@@ -5,6 +5,15 @@ function Calculator() {
     isInitial: true
   });
 
+
+ const expressionRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (expressionRef.current) {
+      expressionRef.current.scrollLeft = expressionRef.current.scrollWidth;
+    }
+  }, [display.expression]);
+
   const handleNumber = (value) => {
     let { current, isInitial } = display;
 
@@ -114,7 +123,8 @@ const renderButton = (text, onClick, extraClass = "") => {
 
   return (
     <div className="calculator">
-      <div className="text-wrapper-3">{display.expression}</div>
+      {/* <div className={`text-wrapper-3 ${display.current.length > 12 ? "rtl-mode" : ""}`}>{display.expression}</div> */}
+      <div className="text-wrapper-3" ref={expressionRef}>{display.expression}</div>
       <div className={`text-wrapper-4 ${display.current.length > 6 ? "rtl-mode" : ""}`}>{display.current}</div>
       <div className="grid-buttons">
         {renderButton("AC", btnAllClear)}

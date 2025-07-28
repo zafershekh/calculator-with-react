@@ -24,7 +24,7 @@ html, body {
 
 .calculator {
   display: block;
-  max-width: 393px;
+  max-width: 363px;
   width: 100%;
   padding: 30px 20px 40px;
   background: linear-gradient(180deg, rgba(61, 73, 83, 1) 0%, rgba(26, 26, 26, 1) 100%);
@@ -55,14 +55,26 @@ html, body {
   font-size: 24px;
   font-weight: 600;
   text-align: right;
-  margin-bottom: 20px;
-  height: 10px;
-  @media (max-width:768px) {
-    margin-top: auto;
-    margin-bottom: 0px;
-  }
+  height: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
  
 }
+
+ @media (max-width:768px) {
+  .text-wrapper-3{
+    margin-top: auto;
+    margin-bottom: 0px;
+    font-size: 20px;
+  }
+  .text-wrapper-4 {
+    margin-top: auto;
+    margin-bottom: 50px;
+}
+   
+  }
+
 
 .text-wrapper-4 {
   color: #ffffff;
@@ -73,10 +85,6 @@ html, body {
   overflow-x: auto;
   white-space: nowrap;
   scrollbar-width: none;
-  @media (max-width:768px) {
-    margin-top: auto;
-    margin-bottom: 50px;  
-  }
 }
 .text-wrapper-4.rtl-mode{
   direction: rtl;
@@ -89,7 +97,6 @@ html, body {
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
   @media (max-width:768px) {
-    max-width: 100%;
     margin-bottom: 20px;
      gap: 20px;
      box-sizing: border-box;
@@ -100,7 +107,6 @@ html, body {
 
 
 
-/* === SHARED BUTTON STYLES === */
 .overlap-group-wrapper {
   background: linear-gradient(180deg, #3D4953, #1A1A1A);
   border-radius: 15px;
@@ -114,74 +120,48 @@ html, body {
   user-select: none;
 }
 
-/* === DEFAULT (NUMBER) BUTTON DESIGN === */
 .overlap-group-2 {
-  position: relative;
+  background: linear-gradient(180deg, #E9ECEF, #3D4953);
+  border: 1px solid rgba(173, 181, 189, 0.2);
+  border-radius: 15px;
+  box-shadow: inset 1px 4px 6px 1px #00000061;
   height: 62px;
   width: 62px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 15px;
-  overflow: hidden; /* ensure ::before stays clipped */
-  z-index: 0;        /* behind text */
-}
+  position: relative;
 
-.overlap-group-2::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  border-radius: 15px;
-  background: linear-gradient(180deg, #E9ECEF, #3D4953);
-  border: 1px solid rgba(173, 181, 189, 0.2);
-  box-shadow: inset 1px 4px 6px 1px #00000061;
+
   mix-blend-mode: overlay;
-  opacity: 0.85;
-  pointer-events: none;
-  z-index: 0;
+  background-blend-mode: overlay;
+  opacity: 0.85; 
+  pointer-events: none; 
+  
 }
 
 .rounded-rectangle-2 {
-  position: absolute;
+  background: linear-gradient(1deg, rgba(233, 236, 239, 0.87), rgba(33, 37, 41, 0.87));
+  border: 1px solid #adb5bd17;
+  border-radius: 100px;
+  box-shadow: 1px 4px 6px 1px #00000061;
   height: 45px;
   width: 45px;
-  border-radius: 100px;
-  overflow: hidden;
-  z-index: 1; /* must be above parent background */
-}
-
-.rounded-rectangle-2::before {
-  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  border-radius: 100px;
-  background: linear-gradient(1deg, rgba(233, 236, 239, 0.87), rgba(33, 37, 41, 0.87));
-  mix-blend-mode: overlay;
-  opacity: 0.85;
-  pointer-events: none;
-  z-index: 1;
+  mix-blend-mode:normal;
 }
-
-
-
 
 .text-wrapper {
-  color: #ffffff;
   font-size: 20px;
   font-weight: 600;
   position: relative;
   z-index: 2;
-  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
-  pointer-events: none;
+  color: #000; 
+  text-shadow: 
+    0 0 3px rgba(255, 255, 255, 0.8),
+    1px 1px 1px rgba(255, 255, 255, 0.6);
 }
 
-/* === OPERATOR BUTTON DESIGN === */
 .overlap-group-oprations {
   background: linear-gradient(180deg, #CABA04 0%, #FDE047 100%);
   background-blend-mode: normal;
@@ -208,6 +188,7 @@ html, body {
   background-blend-mode: overlay;
   opacity: 0.85; 
   pointer-events: none; 
+  
 }
 
 .text-wrapper-oprations {
@@ -219,7 +200,6 @@ html, body {
   z-index: 1;
 }
 
-/* === DOUBLE HEIGHT FOR "=" BUTTON === */
 .button-span-2-rows {
   grid-row: span 2;
   height: 155px;
@@ -233,9 +213,4 @@ html, body {
 .button-span-2-rows .rounded-rectangle-2,
 .button-span-2-rows .rounded-rectangle-oprations {
   height: 75%;
-}
-
-/* === RTL Display Mode for Overflow === */
-.text-wrapper-4.rtl-mode {
-  direction: rtl;
 }
